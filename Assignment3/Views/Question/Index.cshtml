@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Assignment3.Models.ViewModels.QuestionViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Questions</h2>
+
+<p>
+    @Html.ActionLink("Ask a Question", "Add","Question")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.VoteCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AnswerCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ViewCount)
+        </th>
+        <th style="width: 40%">
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuestionDate)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a href="@Url.Action("Upvote", "Question", new { id = item.Id, returnUrl = Request.RawUrl })"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                <span class="badge badge-secondary"> @item.VoteCount</span>
+                <a href="@Url.Action("Downvote", "Question",new { id = item.Id, returnUrl = Request.RawUrl })"><span class="glyphicon glyphicon-arrow-down"></span></a>
+            </td>
+            <td>
+                <span class="badge badge-secondary">@item.AnswerCount</span>
+                Answers
+            </td>
+            <td>
+                <span class="badge badge-secondary">@item.ViewCount</span>
+                Views
+            </td>
+            <td>
+                @Html.ActionLink((string)item.Name, "Answer", new { id = item.Id })
+                <br />
+                <span class="badge badge-info"> @item.Category</span>
+            </td>
+            <td>
+               by @item.UserName
+            </td>
+            <td>
+                @item.QuestionDate
+            </td>
+        </tr>
+    }
+
+</table>

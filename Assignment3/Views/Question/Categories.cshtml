@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Assignment3.Models.ViewModels.CategoryViewModel>
+
+@{
+    ViewBag.Title = "Categories";
+}
+
+<h2>Categories</h2>
+
+<table class="table table-hover">
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+    </tr>
+}
+
+</table>

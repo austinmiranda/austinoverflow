@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Assignment3.Models.ViewModels.UserViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Admin - User Account Status</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            Account Status
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        @if (item.LockoutEndDate > DateTime.UtcNow)
+        {
+            <td>
+                @Html.ActionLink("Unlock", "Unlock", "Admin", new { id = item.UserId, returnUrl = Request.RawUrl }, null)
+            </td>
+        }
+        else
+        {
+            <td>
+                Account Enabled
+            </td>
+        }
+    </tr>
+}
+
+</table>

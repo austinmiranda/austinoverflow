@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Assignment3.Models.ViewModels.QuestionViewModel>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Learn, Share, Build!</h1>
+    <h3>Each month, over 50 million developers come to Stack Overflow to learn, share their knowledge, and build their careers.</h3>
+    <p>Join the world's largest developer community.</p>
+</div>
+
+<div class="row">
+    <table class="table table-hover">
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                <a href="@Url.Action("Upvote", "Question", new { id = item.Id, returnUrl = Request.RawUrl })"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                <span class="badge badge-secondary"> @item.VoteCount</span>
+                <a href="@Url.Action("Downvote", "Question",new { id = item.Id , returnUrl = Request.RawUrl })"><span class="glyphicon glyphicon-arrow-down"></span></a>
+            </td>
+            <td>
+                <span class="badge badge-secondary">@Html.DisplayFor(modelItem => item.AnswerCount)</span>
+                Answers
+            </td>
+            <td>
+                <span class="badge badge-secondary">@Html.DisplayFor(modelItem => item.ViewCount) </span>
+                Views
+            </td>
+            <td style="width: 40%">
+                @Html.ActionLink((string)item.Name, "Answer", "Question", new { id = item.Id }, null)<br />
+                <span class="badge badge-info"> @Html.DisplayFor(modelItem => item.Category)</span>
+            </td>
+            <td>
+                by @item.UserName
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuestionDate)
+            </td>
+        </tr>
+        }
+        </table>
+</div>

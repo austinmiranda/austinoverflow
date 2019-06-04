@@ -1,0 +1,92 @@
+﻿@using Microsoft.AspNet.Identity
+@model Assignment3.Models.ViewModels.QuestionAnswerViewModel
+
+@{
+    ViewBag.Title = "Answer";
+}
+
+
+
+<div>
+    <h3>@Model.Question.Name</h3>
+    <h4 class="text-right">
+        
+        <a href="@Url.Action("Upvote", "Question", new { id = Model.Question.Id, returnUrl = Request.RawUrl })"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <span class="badge badge-secondary"> @Model.Question.VoteCount</span> 
+        <a href="@Url.Action("Downvote", "Question",new { id = Model.Question.Id, returnUrl = Request.RawUrl })"><span class="glyphicon glyphicon-arrow-down"></span></a>
+    </h4>
+    <table class="table">
+        <tr>
+            <td>
+
+                <span class="badge badge-info">@Model.Question.Category</span>
+
+            </td>
+            <td>
+
+                by @Model.Question.UserName
+
+            </td>
+            <td>
+                @Model.Question.QuestionDate
+
+            </td>
+            <td>
+                <span class="badge badge-secondary">@Model.Question.ViewCount </span>
+                Views
+            </td>
+        </tr>
+    </table>
+    <h4>Answers</h4>
+
+    @foreach (var answer in Model.Answers)
+    {
+        <hr>
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">@answer.Answer</p>
+                <p>by @answer.UserName</p>
+                <p class="text-right">@answer.AnswerDate</p>
+                @if (User.Identity.GetUserId<string>() == answer.UserId)
+                {
+                    @Html.ActionLink("Edit", "Edit", "Answer", new { id = answer.Id }, new { @class = "btn btn-primary" })
+                }
+            </div>
+        </div>
+
+    }
+
+
+</div>
+
+<div>
+    <h3>Add an Answer</h3>
+
+    @using (Html.BeginForm("Answer", "Question", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(model => model.AddAns.QuestionId, new { @Value = Model.Question.Id })
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AddAns.Answer, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AddAns.Answer, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AddAns.Answer, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Add Answer" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
